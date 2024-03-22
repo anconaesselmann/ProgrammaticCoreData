@@ -3,6 +3,17 @@
 
 import CoreData
 
-public protocol SelfDescribingCoreDataEntity {
+public protocol SelfDescribingCoreDataEntity: NSManagedObject {
     static var entityDescription: NSEntityDescription { get }
+}
+
+public extension SelfDescribingCoreDataEntity {
+
+    static func fetchRequest() throws -> NSFetchRequest<Self> {
+        NSFetchRequest<Self>(entityName: "\(Self.self)")
+    }
+
+    var wasDeleted: Bool {
+        managedObjectContext == nil
+    }
 }

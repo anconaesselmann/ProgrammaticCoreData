@@ -7,7 +7,9 @@ public extension NSManagedObjectModel {
 
     convenience init(_ entities: [any SelfDescribingCoreDataEntity.Type]) {
         self.init()
-        self.entities = entities.map { $0.entityDescription }
+        let descriptions = entities.map { $0.entityDescription }
+        RelationshipRegistry.shared.resolveRelationships(using: entities)
+        self.entities = descriptions
     }
 
     convenience init(_ entities: any SelfDescribingCoreDataEntity.Type...) {
