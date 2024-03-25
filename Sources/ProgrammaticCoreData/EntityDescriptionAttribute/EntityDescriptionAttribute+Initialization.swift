@@ -23,7 +23,7 @@ public extension EntityDescriptionAttribute {
 
     // TODO: allow to pass in min/max.
     static func relationship<InverseCoreDataType, InverseT>(
-        _ keyPath: KeyPath<CoreDataEntity, NSSet?>,
+        _ keyPath: KeyPath<CoreDataEntity, T>,
         inverse: KeyPath<InverseCoreDataType, InverseT>,
         deleteRule: NSDeleteRule = .noActionDeleteRule
     ) -> Self
@@ -41,7 +41,7 @@ public extension EntityDescriptionAttribute {
 
     // TODO: allow to pass in min/max.
     static func relationship<InverseCoreDataType, InverseT>(
-        _ keyPath: KeyPath<CoreDataEntity, NSSet>,
+        _ keyPath: KeyPath<CoreDataEntity, T>,
         inverse: KeyPath<InverseCoreDataType, InverseT>,
         is type: RelationshipProperties.RelationshipType = .toOne,
         deleteRule: NSDeleteRule = .noActionDeleteRule
@@ -49,7 +49,7 @@ public extension EntityDescriptionAttribute {
         where
             CoreDataEntity: SelfDescribingCoreDataEntity,
             InverseCoreDataType: SelfDescribingCoreDataEntity,
-            T == NSSet
+            T: NSSet
     {
         .relationship(keyPath, RelationshipProperties(
             inverse: inverse,
@@ -61,14 +61,14 @@ public extension EntityDescriptionAttribute {
     static func undefined(_ keyPath: KeyPath<CoreDataEntity, T>, defaultValue: Any? = nil) -> Self {
         .undefined(keyPath, AttributeProperties(defaultValue: defaultValue))
     }
-    static func integer16(_ keyPath: KeyPath<CoreDataEntity, T>, defaultValue: Int16? = nil) -> Self {
-        .integer16(keyPath, AttributeProperties(defaultValue: defaultValue))
+    static func int16(_ keyPath: KeyPath<CoreDataEntity, T>, defaultValue: Int16? = nil) -> Self {
+        .int16(keyPath, AttributeProperties(defaultValue: defaultValue))
     }
-    static func integer32(_ keyPath: KeyPath<CoreDataEntity, T>, defaultValue: Int32? = nil) -> Self {
-        .integer32(keyPath, AttributeProperties(defaultValue: defaultValue))
+    static func int32(_ keyPath: KeyPath<CoreDataEntity, T>, defaultValue: Int32? = nil) -> Self {
+        .int32(keyPath, AttributeProperties(defaultValue: defaultValue))
     }
-    static func integer64(_ keyPath: KeyPath<CoreDataEntity, T>, defaultValue: Int64? = nil) -> Self {
-        .integer64(keyPath, AttributeProperties(defaultValue: defaultValue))
+    static func int64(_ keyPath: KeyPath<CoreDataEntity, T>, defaultValue: Int64? = nil) -> Self {
+        .int64(keyPath, AttributeProperties(defaultValue: defaultValue))
     }
     static func decimal(_ keyPath: KeyPath<CoreDataEntity, T>, defaultValue: Decimal? = nil) -> Self {
         .decimal(keyPath, AttributeProperties(defaultValue: defaultValue))

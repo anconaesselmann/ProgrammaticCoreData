@@ -8,11 +8,11 @@ extension NSAttributeType {
         switch entityDescriptionAttribute {
         case .undefined:
             self = .undefinedAttributeType
-        case .integer16:
+        case .int16:
             self = .integer16AttributeType
-        case .integer32:
+        case .int32:
             self = .integer32AttributeType
-        case .integer64:
+        case .int64:
             self = .integer64AttributeType
         case .decimal:
             self = .decimalAttributeType

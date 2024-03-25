@@ -9,7 +9,7 @@ public protocol SelfDescribingCoreDataEntity: NSManagedObject {
 
 public extension SelfDescribingCoreDataEntity {
 
-    static func fetchRequest() throws -> NSFetchRequest<Self> {
+    static func fetchRequest() -> NSFetchRequest<Self> {
         NSFetchRequest<Self>(entityName: "\(Self.self)")
     }
 

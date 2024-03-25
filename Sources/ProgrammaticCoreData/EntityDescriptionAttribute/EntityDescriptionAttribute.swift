@@ -11,9 +11,9 @@ public enum EntityDescriptionAttribute<CoreDataEntity, T> {
     }
 
     case undefined(KeyPath<CoreDataEntity, T>, AttributeProperties)
-    case integer16(KeyPath<CoreDataEntity, T>, AttributeProperties)
-    case integer32(KeyPath<CoreDataEntity, T>, AttributeProperties)
-    case integer64(KeyPath<CoreDataEntity, T>, AttributeProperties)
+    case int16(KeyPath<CoreDataEntity, T>, AttributeProperties)
+    case int32(KeyPath<CoreDataEntity, T>, AttributeProperties)
+    case int64(KeyPath<CoreDataEntity, T>, AttributeProperties)
     case decimal(KeyPath<CoreDataEntity, T>, AttributeProperties)
     case double(KeyPath<CoreDataEntity, T>, AttributeProperties)
     case float(KeyPath<CoreDataEntity, T>, AttributeProperties)
@@ -36,9 +36,9 @@ public enum EntityDescriptionAttribute<CoreDataEntity, T> {
         switch self {
         case
             .undefined(let keyPath, _),
-            .integer16(let keyPath, _),
-            .integer32(let keyPath, _),
-            .integer64(let keyPath, _),
+            .int16(let keyPath, _),
+            .int32(let keyPath, _),
+            .int64(let keyPath, _),
             .decimal(let keyPath, _),
             .double(let keyPath, _),
             .float(let keyPath, _),
@@ -62,9 +62,9 @@ public enum EntityDescriptionAttribute<CoreDataEntity, T> {
             return .relationship(properties)
         case
             .undefined(_, let properties),
-            .integer16(_, let properties),
-            .integer32(_, let properties),
-            .integer64(_, let properties),
+            .int16(_, let properties),
+            .int32(_, let properties),
+            .int64(_, let properties),
             .decimal(_, let properties),
             .double(_, let properties),
             .float(_, let properties),
