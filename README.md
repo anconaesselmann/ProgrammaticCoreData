@@ -182,8 +182,8 @@ extension Book: SelfDescribingCoreDataEntity {
 We can now build our data model and create a container:
 ```swift
 let container = try await NSManagedObjectModel(
-    AuthorEntity.self,
-    BookEntity.self
+    Author.self,
+    Book.self
 )
 .createContainer(name: "Books", location: .local)
 ```
@@ -204,11 +204,11 @@ final public class Author: NSManagedObject, Identifiable {
 
 In the `Author`'s extension to conform to `SelfDescribingCoreDataEntity` we would set `isOrdered` to `false` or simply write `.toMany`:
 ```Swift
-extension AuthorEntity: SelfDescribingCoreDataEntity {
-    public static var entityDescription = AuthorEntity.description(
+extension Author: SelfDescribingCoreDataEntity {
+    public static var entityDescription = Author.description(
         // ...
         .relationship(\._books, .init(
-            inverse: \BookEntity.author,
+            inverse: \Book.author,
             deleteRule: .cascadeDeleteRule,
             relationshipType: .toMany
         ))
