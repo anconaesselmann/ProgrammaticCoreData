@@ -4,14 +4,14 @@ ProgrammaticCoreData is a library for iOS and macOS for creating CoreData's `NSM
 
 ### Why might I want to create my Core Data models programmatically (and with ProgrammaticCoreData):
 - CoreData models that were created with Xcode's editor are a pain to ship in packages.
-- When [linking multiple core data stores](https://developer.apple.com/documentation/coredata/linking_data_between_two_core_data_stores) certain CoreData features are limmited or unavailable. Relationships across data stores for example are not supported (fetched properties can be used instead but have to be updated manually). Programmatic data models can be combined, resulting in one store and the ability to use relationships.
-- When [removing optionals from your CoreData code](https://www.jessesquires.com/blog/2022/01/26/core-data-optionals/) propperty types and their optionality in the Xcode data model and the manually created `Entities` have to match. When changing a propperty in either place the other has to be updated manually, which introduces a place to make mistakes. Since ProgrammaticCoreData uses KeyPaths for entity descriptions the compiler spots many of the aforementioned issues. Since creating entity descriptions programmatically allows for the Entity and the Entity Description to live in the same file, spotting issues the compiler did not catch might become a bit easier.
+- When [linking multiple core data stores](https://developer.apple.com/documentation/coredata/linking_data_between_two_core_data_stores) certain CoreData features are limited or unavailable. Relationships across data stores for example are not supported (fetched properties can be used instead but have to be updated manually). Programmatic data models can be combined, resulting in one store and the ability to use relationships.
+- When [removing optionals from your CoreData code](https://www.jessesquires.com/blog/2022/01/26/core-data-optionals/) property types and their optionality in the Xcode data model and the manually created `Entities` have to match. When changing a property in either place the other has to be updated manually, which introduces a place to make mistakes. Since ProgrammaticCoreData uses KeyPaths for entity descriptions the compiler spots many of the aforementioned issues. Since creating entity descriptions programmatically allows for the Entity and the Entity Description to live in the same file, spotting issues the compiler did not catch might become a bit easier.
 - Xcode's CoreData models are stored as XML files. Reviewing changes can be difficult. A programmatic CoreData model makes reviews simpler
 - Data models created with ProgrammaticCoreData are declarative.
 - Apple's APIs for creating CoreData models programmatically relies heavily on strings. ProgrammaticCoreData replaces stringy API's with ones utilizing `KeyPath`s.
 
 ### Reasons for not creating your data models programmatically:
-- Migrations. A [humorous writeup](https://medium.com/@JohnCoatesDev/dont-create-core-data-models-programmatically-3a563e66ce2a) chronicles the pains of how to get migrations to work with programmatically created data models. There is verry little public documentation for migrating CoreData models that were not created with Xcode's CoreData model editor. [It is possible though](https://github.com/JohnCoates/Slate/tree/master/Source/Database).
+- Migrations. A [humorous writeup](https://medium.com/@JohnCoatesDev/dont-create-core-data-models-programmatically-3a563e66ce2a) chronicles the pains of how to get migrations to work with programmatically created data models. There is very little public documentation for migrating CoreData models that were not created with Xcode's CoreData model editor. [It is possible though](https://github.com/JohnCoates/Slate/tree/master/Source/Database).
 
 ## Author
 
@@ -107,7 +107,7 @@ final public class Author: NSManagedObject, Identifiable {
 }
 ```
 
-We create a `Book` entity programmatically. Note that it should be impossible to create a book without adding the book to it's authors `books` propperty, since we have an inverse relationship. We achieve this by creating an initializer that adds the book to it's `Author` and marking all other initializers as `unavailable`:
+We create a `Book` entity programmatically. Note that it should be impossible to create a book without adding the book to it's authors `books` property, since we have an inverse relationship. We achieve this by creating an initializer that adds the book to it's `Author` and marking all other initializers as `unavailable`:
 ```swift
 @objc(Book)
 final public class Book: NSManagedObject, Identifiable {
@@ -217,6 +217,6 @@ extension AuthorEntity: SelfDescribingCoreDataEntity {
 }
 ``` 
 
-## Limmitations
+## Limitations
 
 - Entities can have a maximum of 25 attributes
