@@ -8,6 +8,7 @@ ProgrammaticCoreData is a library for iOS and macOS for creating CoreData's `NSM
 - When [removing optionals from your CoreData code](https://www.jessesquires.com/blog/2022/01/26/core-data-optionals/) propperty types and their optionality in the Xcode data model and the manually created `Entities` have to match. When changing a propperty in either place the other has to be updated manually, which introduces a place for failure.
 - Xcode's CoreData models are stored as XML files. Reviewing changes can be difficult. A programmatic CoreData model makes reviews simpler
 - Data models created with ProgrammaticCoreData are declarative.
+- Apple's APIs for creating CoreData models programmatically relies heavily on strings. ProgrammaticCoreData replaces stringy API's with `KeyPath`s.
 
 ### Reasons for not creating your data models programmatically:
 - Migrations. A [humorous writeup](https://medium.com/@JohnCoatesDev/dont-create-core-data-models-programmatically-3a563e66ce2a) chronicles the pains of how to get migrations to work with programmatically created data models. There is verry little public documentation for migrating CoreData models that were not created with Xcode's CoreData model editor. [It is possible though](https://github.com/JohnCoates/Slate/tree/master/Source/Database).
