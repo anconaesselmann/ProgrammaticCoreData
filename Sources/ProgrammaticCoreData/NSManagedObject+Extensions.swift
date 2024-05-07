@@ -16,8 +16,7 @@ public extension NSManagedObject {
     ) throws
         where 
             ManagedObject: NSManagedObject,
-SelfType: NSManagedObject
-
+            SelfType: NSManagedObject
     {
         let items = try self.mutableSetValue(keyPath)
         guard !items.contains(value) else {

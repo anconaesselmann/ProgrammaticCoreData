@@ -8,18 +8,22 @@ public struct RelationshipProperties {
 
     public enum RelationshipType {
         case toOne
-        case toMany(minCount: Int?, maxCount: Int?)
+        case toMany(minCount: Int?, maxCount: Int?, isOrdered: Bool)
 
         public static var toMany: Self {
-            .toMany(minCount: nil, maxCount: nil)
+            .toMany(minCount: nil, maxCount: nil, isOrdered: false)
         }
 
-        public static func toMany(minCount: Int? = nil) -> Self {
-            .toMany(minCount: minCount, maxCount: nil)
+        public static func toMany(minCount: Int? = nil, isOrdered: Bool = false) -> Self {
+            .toMany(minCount: minCount, maxCount: nil, isOrdered: isOrdered)
         }
 
-        public static func toMany(maxCount: Int? = nil) -> Self {
-            .toMany(minCount: nil, maxCount: maxCount)
+        public static func toMany(maxCount: Int? = nil, isOrdered: Bool = false) -> Self {
+            .toMany(minCount: nil, maxCount: maxCount, isOrdered: isOrdered)
+        }
+
+        public static func toMany(isOrdered: Bool) -> Self {
+            .toMany(minCount: nil, maxCount: nil, isOrdered: isOrdered)
         }
     }
 

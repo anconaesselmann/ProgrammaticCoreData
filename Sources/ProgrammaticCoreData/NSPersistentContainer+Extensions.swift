@@ -13,14 +13,6 @@ public struct CloudOptions {
 
 public extension NSPersistentContainer {
 
-    func printLocation() -> Self {
-        guard let url = persistentStoreDescriptions.first?.url else {
-            return self
-        }
-        print(url.path())
-        return self
-    }
-
     enum Location {
         public static func cloud(cloudContainerIdentifier: String) -> Self {
             return .cloud(cloudContainerIdentifier: cloudContainerIdentifier, options: CloudOptions())
@@ -65,6 +57,14 @@ public extension NSPersistentContainer {
                 }
             })
         }
+    }
+
+    func printLocation() -> Self {
+        guard let url = persistentStoreDescriptions.first?.url else {
+            return self
+        }
+        print(url.path())
+        return self
     }
 
     static func create(

@@ -15,7 +15,12 @@ public extension NSRelationshipDescription {
         switch relationshipType {
         case .toOne:
             self.maxCount = 1
-        case .toMany(minCount: let maybeMinCount, let maxCount):
+        case .toMany(
+            minCount: let maybeMinCount,
+            maxCount: let maxCount,
+            isOrdered: let isOrdered
+        ):
+            self.isOrdered = isOrdered
             if let minCount = maybeMinCount {
                 self.minCount = minCount
             } else {
