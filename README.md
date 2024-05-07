@@ -45,21 +45,21 @@ The example projects are a good starting point
 We create our `Note` entity programmatically:
 ```swift
 @objc(Note)
-public class Note: NSManagedObject, Identifiable {
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Note> {
+final class Note: NSManagedObject, Identifiable {
+    @nonobjc class func fetchRequest() -> NSFetchRequest<Note> {
         return NSFetchRequest<Note>(entityName: "Note")
     }
 
-    @NSManaged public var id: UUID
-    @NSManaged public var text: String
-    @NSManaged public var created: Date
+    @NSManaged var id: UUID
+    @NSManaged var text: String
+    @NSManaged var created: Date
 }
 ```
 
 Extending `Note` to conform to `SelfDescribingCoreDataEntity` will give us a declarative representation of `Note`'s entity description:
 ```swift
 extension Note: SelfDescribingCoreDataEntity {
-    public static var entityDescription = Note.description(
+    static var entityDescription = Note.description(
         .uuid(\.id),
         .string(\.text),
         .date(\.created)
@@ -80,46 +80,46 @@ let container = try await NSManagedObjectModel(
 We create an `Author` entity programmatically. Note the `addToBooks` and `removeFromBooks` function signatures. We are exposing objective-c methods that get generated for us to add to our `_books` ordered set:
 ```swift
 @objc(Author)
-final public class Author: NSManagedObject, Identifiable {
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Author> {
+final class Author: NSManagedObject, Identifiable {
+    @nonobjc class func fetchRequest() -> NSFetchRequest<Author> {
         return NSFetchRequest<Author>(entityName: "Author")
     }
 
-    @NSManaged public var id: UUID
-    @NSManaged public var name: String
-    @NSManaged public var _books: NSOrderedSet
+    @NSManaged var id: UUID
+    @NSManaged var name: String
+    @NSManaged var _books: NSOrderedSet
 
-    public var books: Array<Book> {
+    var books: Array<Book> {
         get { _books.array as! Array<Book> }
     }
 
     @objc(add_booksObject:)
-    @NSManaged public func addToBooks(_ value: Book)
+    @NSManaged func addToBooks(_ value: Book)
 
     @objc(remove_booksObject:)
-    @NSManaged public func removeFromBooks(_ value: Book)
+    @NSManaged func removeFromBooks(_ value: Book)
 
     @objc(add_books:)
-    @NSManaged public func addToBooks(_ values: Set<Book>)
+    @NSManaged func addToBooks(_ values: Set<Book>)
 
     @objc(remove_books:)
-    @NSManaged public func removeFromBooks(_ values: Set<Book>)
+    @NSManaged func removeFromBooks(_ values: Set<Book>)
 }
 ```
 
 We create a `Book` entity programmatically. Note that it should be impossible to create a book without adding the book to it's authors `books` property, since we have an inverse relationship. We achieve this by creating an initializer that adds the book to it's `Author` and marking all other initializers as `unavailable`:
 ```swift
 @objc(Book)
-final public class Book: NSManagedObject, Identifiable {
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Book> {
+final class Book: NSManagedObject, Identifiable {
+    @nonobjc class func fetchRequest() -> NSFetchRequest<Book> {
         return NSFetchRequest<Book>(entityName: "Book")
     }
 
-    @NSManaged public var id: UUID
-    @NSManaged public var title: String
-    @NSManaged public var author: Author
+    @NSManaged var id: UUID
+    @NSManaged var title: String
+    @NSManaged var author: Author
     
-    public init(
+    init(
         context: NSManagedObjectContext,
         id: UUID,
         title: String,
@@ -133,17 +133,17 @@ final public class Book: NSManagedObject, Identifiable {
     }
     
     @available(*, unavailable)
-    public override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
+    override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
         super.init(entity: entity, insertInto: context)
     }
 
     @available(*, unavailable)
-    public init(context: NSManagedObjectContext) {
+    init(context: NSManagedObjectContext) {
         fatalError()
     }
 
     @available(*, unavailable)
-    public init() {
+    init() {
         fatalError()
     }
 }
@@ -152,7 +152,7 @@ final public class Book: NSManagedObject, Identifiable {
 Extending `Author` to conform to `SelfDescribingCoreDataEntity` will give us a declarative representation of `Author`'s entity description. We also set up the to-many relationship to the `Book` entity:
 ```swift
 extension Author: SelfDescribingCoreDataEntity {
-    public static var entityDescription = Author.description(
+    static var entityDescription = Author.description(
         .uuid(\.id),
         .string(\.name),
         .relationship(\._books, .init(
@@ -167,7 +167,7 @@ extension Author: SelfDescribingCoreDataEntity {
 Extending `Book` to conform to `SelfDescribingCoreDataEntity` will give us a declarative representation of `Book`'s entity description. We also set up the to-one relationship to the `Book`'s `Author` entity:
 ```swift
 extension Book: SelfDescribingCoreDataEntity {
-    public static var entityDescription = Book.description(
+    static var entityDescription = Book.description(
         .uuid(\.id),
         .string(\.title),
         .relationship(\.author, .init(
@@ -192,9 +192,9 @@ If we didn't care about the order of books on our `Author` entity we would decla
 
 ```Swift
 @objc(Author)
-final public class Author: NSManagedObject, Identifiable {
+final class Author: NSManagedObject, Identifiable {
     // ...
-    @NSManaged public var _books: NSSet
+    @NSManaged var _books: NSSet
 
     var books: Set<Book> {
         get { _books as! Set<Book> }
@@ -205,7 +205,7 @@ final public class Author: NSManagedObject, Identifiable {
 In the `Author`'s extension to conform to `SelfDescribingCoreDataEntity` we would set `isOrdered` to `false` or simply write `.toMany`:
 ```Swift
 extension Author: SelfDescribingCoreDataEntity {
-    public static var entityDescription = Author.description(
+    static var entityDescription = Author.description(
         // ...
         .relationship(\._books, .init(
             inverse: \Book.author,

@@ -6,16 +6,16 @@ import CoreData
 import ProgrammaticCoreData
 
 @objc(BookEntity)
-public class BookEntity: NSManagedObject, Identifiable {
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<BookEntity> {
+final class BookEntity: NSManagedObject, Identifiable {
+    @nonobjc class func fetchRequest() -> NSFetchRequest<BookEntity> {
         return NSFetchRequest<BookEntity>(entityName: "BookEntity")
     }
 
-    @NSManaged public var id: UUID
-    @NSManaged public var title: String
-    @NSManaged public var author: AuthorEntity
+    @NSManaged var id: UUID
+    @NSManaged var title: String
+    @NSManaged var author: AuthorEntity
 
-    public init(
+    init(
         context: NSManagedObjectContext,
         id: UUID,
         title: String,
@@ -29,23 +29,23 @@ public class BookEntity: NSManagedObject, Identifiable {
     }
 
     @available(*, unavailable)
-    public override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
+    override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
         super.init(entity: entity, insertInto: context)
     }
 
     @available(*, unavailable)
-    public init(context: NSManagedObjectContext) {
+    init(context: NSManagedObjectContext) {
         fatalError()
     }
 
     @available(*, unavailable)
-    public init() {
+    init() {
         fatalError()
     }
 }
 
 extension BookEntity: SelfDescribingCoreDataEntity {
-    public static var entityDescription = BookEntity.description(
+    static var entityDescription = BookEntity.description(
         .uuid(\.id),
         .string(\.title),
         .relationship(\.author, .init(
