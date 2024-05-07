@@ -1,6 +1,6 @@
 # ProgrammaticCoreData
 
-ProgrammaticCoreData is a library for iOS and macOS for creating CoreData's `NSManagedObjectModel`s programmatically.
+ProgrammaticCoreData is a declarative library for iOS and macOS for creating CoreData's `NSManagedObjectModel`s programmatically.
 
 ### Why might I want to create my Core Data models programmatically (and with ProgrammaticCoreData):
 - CoreData models that were created with Xcode's editor are a pain to ship in packages.
@@ -225,4 +225,4 @@ extension Author: SelfDescribingCoreDataEntity {
 
 ## Limitations
 
-- Entities can have a maximum of 25 attributes
+- Entities in `ProgrammaticCoreData` can have a maximum of 25 attributes
