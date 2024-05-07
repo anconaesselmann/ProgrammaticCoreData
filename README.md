@@ -97,7 +97,47 @@ final class Author: NSManagedObject, Identifiable {
 }
 ```
 
-We create a `Book` entity programmatically. Note that it should be impossible to create a book without adding the book to it's authors `books` property, since we have an inverse relationship:
+We create a `Book` entity programmatically:
+```swift
+@objc(Book)
+final class Book: NSManagedObject, Identifiable {
+    @NSManaged var id: UUID
+    @NSManaged var title: String
+    @NSManaged var author: Author
+}
+```
+
+Extending `Author` to conform to `SelfDescribingCoreDataEntity` will give us a declarative representation of `Author`'s entity description. We also set up the to-many relationship with the `Book` entity:
+```swift
+extension Author: SelfDescribingCoreDataEntity {
+    static var entityDescription = Author.description(
+        .uuid(\.id),
+        .string(\.name),
+        .relationship(\._books, .init(
+            inverse: \Book.author,
+            deleteRule: .cascadeDeleteRule,
+            relationshipType: .toMany(isOrdered: true)
+        ))
+    )
+}
+```
+
+Extending `Book` to conform to `SelfDescribingCoreDataEntity` will give us a declarative representation of `Book`'s entity description. We also set up the to-one relationship to the `Book`'s `Author` entity:
+```swift
+extension Book: SelfDescribingCoreDataEntity {
+    static var entityDescription = Book.description(
+        .uuid(\.id),
+        .string(\.title),
+        .relationship(\.author, .init(
+            inverse: \Author._books,
+            deleteRule: .nullifyDeleteRule,
+            relationshipType: .toOne
+        ))
+    )
+}
+```
+
+Note that it should be impossible to create a book without adding the book to it's authors `books` property, since we have an inverse relationship. We can achieve this by marking all but our own `Book` initializer as unavailable:
 ```swift
 @objc(Book)
 final class Book: NSManagedObject, Identifiable {
@@ -108,7 +148,7 @@ final class Book: NSManagedObject, Identifiable {
     
     // The only available initializer initializes all none-optional properties.
     // Below we mark all other initializers as unavailable. The compiler can now
-    // enforce that we never instantiate an instance without setting all propperties.
+    // enforce that we never instantiate an instance without setting all properties.
     init(
         context: NSManagedObjectContext,
         id: UUID,
@@ -137,36 +177,6 @@ final class Book: NSManagedObject, Identifiable {
     init() {
         fatalError()
     }
-}
-```
-
-Extending `Author` to conform to `SelfDescribingCoreDataEntity` will give us a declarative representation of `Author`'s entity description. We also set up the to-many relationship to the `Book` entity:
-```swift
-extension Author: SelfDescribingCoreDataEntity {
-    static var entityDescription = Author.description(
-        .uuid(\.id),
-        .string(\.name),
-        .relationship(\._books, .init(
-            inverse: \Book.author,
-            deleteRule: .cascadeDeleteRule,
-            relationshipType: .toMany(isOrdered: true)
-        ))
-    )
-}
-```
-
-Extending `Book` to conform to `SelfDescribingCoreDataEntity` will give us a declarative representation of `Book`'s entity description. We also set up the to-one relationship to the `Book`'s `Author` entity:
-```swift
-extension Book: SelfDescribingCoreDataEntity {
-    static var entityDescription = Book.description(
-        .uuid(\.id),
-        .string(\.title),
-        .relationship(\.author, .init(
-            inverse: \Author._books,
-            deleteRule: .nullifyDeleteRule,
-            relationshipType: .toOne
-        ))
-    )
 }
 ```
 
