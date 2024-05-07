@@ -24,15 +24,17 @@ class NotesViewModel: ObservableObject {
             .store(in: &bag)
     }
 
-    func fetch() async {
-        notes = (try? await notesManager.fetch()) ?? []
+    func fetch() {
+        notes = (try? notesManager.fetch()) ?? []
     }
 
     func delete(indexSet: IndexSet) {
         let toDelete = indexSet.map { notes[$0] }
-        Task {
-            try await notesManager.delete(notes: toDelete)
+        do {
+            try notesManager.delete(notes: toDelete)
             notes.remove(atOffsets: indexSet)
+        } catch {
+            assertionFailure(error.localizedDescription)
         }
     }
 }
@@ -55,7 +57,7 @@ struct NotesView: View {
             }
         }
         .task {
-            await vm.fetch()
+            vm.fetch()
         }
     }
 }

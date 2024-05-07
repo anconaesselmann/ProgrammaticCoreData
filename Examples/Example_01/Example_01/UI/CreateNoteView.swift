@@ -15,9 +15,11 @@ struct CreateNoteView: View {
             TextField("new note", text: $text)
                 .textFieldStyle(.roundedBorder)
             Button("create") {
-                Task {
-                    try await notesManager.create(text: text)
+                do {
+                    try notesManager.create(text: text)
                     text = ""
+                } catch {
+                    assertionFailure(error.localizedDescription)
                 }
             }
             .disabled(text.isEmpty)

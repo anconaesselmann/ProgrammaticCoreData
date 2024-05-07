@@ -23,31 +23,25 @@ class BooksManager {
     }
 
     func fetch() async throws -> [BookEntity] {
-        try await viewContext.perform {
-            let request = BookEntity.fetchRequest()
-            return try self.viewContext.fetch(request)
-        }
+        let request = BookEntity.fetchRequest()
+        return try self.viewContext.fetch(request)
     }
 
     func create(title: String, author: AuthorEntity) async throws {
-        try await viewContext.perform {
-            let entity = BookEntity(
-                context: self.viewContext,
-                id: UUID(),
-                title: title,
-                author: author
-            )
-            try self.viewContext.save()
-            self._bookCreated.send(entity)
-        }
+        let entity = BookEntity(
+            context: self.viewContext,
+            id: UUID(),
+            title: title,
+            author: author
+        )
+        try self.viewContext.save()
+        self._bookCreated.send(entity)
     }
 
     func delete(books: [BookEntity]) async throws {
-        try await viewContext.perform {
-            books.forEach {
-                self.viewContext.delete($0)
-            }
-            try self.viewContext.save()
+        books.forEach {
+            self.viewContext.delete($0)
         }
+        try self.viewContext.save()
     }
 }

@@ -69,6 +69,8 @@ let container = try await NSManagedObjectModel(Note.self)
     .createContainer(name: "Notes", location: .local)
 ```
 
+See [NotesManager](https://github.com/anconaesselmann/ProgrammaticCoreData/blob/main/Examples/Example_01/Example_01/Managers/NotesManager.swift) for basic CRUD operations
+
 - [Example_02](https://github.com/anconaesselmann/ProgrammaticCoreData/tree/main/Examples/Example_02) is a Book Archive app with a to-many relationship from an `Author` to their `Book`s and an inverse to-one relationship from a `Book` and it's `Author`:
 
 We create an `Author` entity programmatically:

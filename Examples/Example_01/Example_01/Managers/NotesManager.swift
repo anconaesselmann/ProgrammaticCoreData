@@ -22,32 +22,26 @@ class NotesManager {
         self.container = container
     }
 
-    func fetch() async throws -> [NoteEntity] {
-        try await viewContext.perform {
-            let request = NoteEntity.fetchRequest()
-            return try self.viewContext.fetch(request)
-        }
+    func fetch() throws -> [NoteEntity] {
+        let request = NoteEntity.fetchRequest()
+        return try self.viewContext.fetch(request)
     }
 
-    func create(text: String) async throws {
-        try await viewContext.perform {
-            let entity = NoteEntity(
-                context: self.viewContext,
-                id: UUID(),
-                text: text,
-                created: .now
-            )
-            try self.viewContext.save()
-            self._noteCreated.send(entity)
-        }
+    func create(text: String) throws {
+        let entity = NoteEntity(
+            context: self.viewContext,
+            id: UUID(),
+            text: text,
+            created: .now
+        )
+        try self.viewContext.save()
+        self._noteCreated.send(entity)
     }
 
-    func delete(notes: [NoteEntity]) async throws {
-        try await viewContext.perform {
-            notes.forEach {
-                self.viewContext.delete($0)
-            }
-            try self.viewContext.save()
+    func delete(notes: [NoteEntity]) throws {
+        notes.forEach {
+            self.viewContext.delete($0)
         }
+        try self.viewContext.save()
     }
 }
