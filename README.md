@@ -3,7 +3,7 @@
 ProgrammaticCoreData is a library for iOS and macOS for creating CoreData's `NSManagedObjectModel`s programmatically.
 
 ### Why might I want to create my Core Data models programmatically (and with ProgrammaticCoreData):
-- Shipping core data models in packages is a pain.
+- CoreData models that were created with Xcode's editor are a pain to ship in packages.
 - When [linking multiple core data stores](https://developer.apple.com/documentation/coredata/linking_data_between_two_core_data_stores) certain CoreData features are limmited or unavailable. Relationships across data stores for example are not supported (fetched properties can be used instead but have to be updated manually). Programmatic data models can be combined, resulting in one store and the ability to use relationships.
 - When [removing optionals from your CoreData code](https://www.jessesquires.com/blog/2022/01/26/core-data-optionals/) propperty types and their optionality in the Xcode data model and the manually created `Entities` have to match. When changing a propperty in either place the other has to be updated manually, which introduces a place for failure.
 - Xcode's CoreData models are stored as XML files. Reviewing changes can be difficult. A programmatic CoreData model makes reviews simpler
