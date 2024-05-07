@@ -140,8 +140,8 @@
 		97AB88B72BE97DE100AB314B /* Persistence */ = {
 			isa = PBXGroup;
 			children = (
-				97AB88B82BE97EEA00AB314B /* Models */,
 				97AB88C52BE984A100AB314B /* ContainerBuilder.swift */,
+				97AB88B82BE97EEA00AB314B /* Models */,
 			);
 			path = Persistence;
 			sourceTree = "<group>";

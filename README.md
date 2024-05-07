@@ -46,9 +46,6 @@ We create our `Note` entity programmatically:
 ```swift
 @objc(Note)
 final class Note: NSManagedObject, Identifiable {
-    @nonobjc class func fetchRequest() -> NSFetchRequest<Note> {
-        return NSFetchRequest<Note>(entityName: "Note")
-    }
 
     @NSManaged var id: UUID
     @NSManaged var text: String
@@ -69,10 +66,8 @@ extension Note: SelfDescribingCoreDataEntity {
 
 We can now build our data model and create a container:
 ```swift
-let container = try await NSManagedObjectModel(
-    Note.self
-)
-.createContainer(name: "Notes", location: .local)
+let container = try await NSManagedObjectModel(Note.self)
+    .createContainer(name: "Notes", location: .local)
 ```
 
 - [Example_02](https://github.com/anconaesselmann/ProgrammaticCoreData/tree/main/Examples/Example_02) is a Book Archive app with a to-many relationship from an `Author` to their `Book`s and an inverse to-one relationship from a `Book` and it's `Author`:
@@ -81,9 +76,6 @@ We create an `Author` entity programmatically. Note the `addToBooks` and `remove
 ```swift
 @objc(Author)
 final class Author: NSManagedObject, Identifiable {
-    @nonobjc class func fetchRequest() -> NSFetchRequest<Author> {
-        return NSFetchRequest<Author>(entityName: "Author")
-    }
 
     @NSManaged var id: UUID
     @NSManaged var name: String
@@ -111,9 +103,6 @@ We create a `Book` entity programmatically. Note that it should be impossible to
 ```swift
 @objc(Book)
 final class Book: NSManagedObject, Identifiable {
-    @nonobjc class func fetchRequest() -> NSFetchRequest<Book> {
-        return NSFetchRequest<Book>(entityName: "Book")
-    }
 
     @NSManaged var id: UUID
     @NSManaged var title: String
@@ -184,8 +173,7 @@ We can now build our data model and create a container:
 let container = try await NSManagedObjectModel(
     Author.self,
     Book.self
-)
-.createContainer(name: "Books", location: .local)
+).createContainer(name: "Books", location: .local)
 ```
 
 If we didn't care about the order of books on our `Author` entity we would declare a `books` `Set` instead of an `Array`:

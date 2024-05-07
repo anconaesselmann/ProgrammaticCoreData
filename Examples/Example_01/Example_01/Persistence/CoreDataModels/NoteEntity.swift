@@ -6,16 +6,16 @@ import CoreData
 import ProgrammaticCoreData
 
 @objc(NoteEntity)
-public class NoteEntity: NSManagedObject, Identifiable {
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<NoteEntity> {
-        return NSFetchRequest<NoteEntity>(entityName: "NoteEntity")
-    }
+final class NoteEntity: NSManagedObject, Identifiable {
 
-    @NSManaged public var id: UUID
-    @NSManaged public var text: String
-    @NSManaged public var created: Date
+    @NSManaged var id: UUID
+    @NSManaged var text: String
+    @NSManaged var created: Date
 
-    public init(
+    // The only available initializer initializes all none-optional properties. 
+    // Below we mark all other initializers as unavailable. The compiler can now
+    // enforce that we never instantiate an instance without setting all propperties.
+    init(
         context: NSManagedObjectContext,
         id: UUID,
         text: String,
@@ -27,24 +27,25 @@ public class NoteEntity: NSManagedObject, Identifiable {
         self.created = created
     }
 
+    // MARK: - Unavailable initializers
     @available(*, unavailable)
-    public override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
+    override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
         super.init(entity: entity, insertInto: context)
     }
 
     @available(*, unavailable)
-    public init(context: NSManagedObjectContext) {
+    init(context: NSManagedObjectContext) {
         fatalError()
     }
 
     @available(*, unavailable)
-    public init() {
+    init() {
         fatalError()
     }
 }
 
 extension NoteEntity: SelfDescribingCoreDataEntity {
-    public static var entityDescription = NoteEntity.description(
+    static var entityDescription = NoteEntity.description(
         .uuid(\.id),
         .string(\.text),
         .date(\.created)

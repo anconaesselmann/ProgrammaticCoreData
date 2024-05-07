@@ -7,9 +7,6 @@ import ProgrammaticCoreData
 
 @objc(AuthorEntity)
 final class AuthorEntity: NSManagedObject, Identifiable {
-    @nonobjc class func fetchRequest() -> NSFetchRequest<AuthorEntity> {
-        return NSFetchRequest<AuthorEntity>(entityName: "AuthorEntity")
-    }
 
     @NSManaged var id: UUID
     @NSManaged var name: String
@@ -31,6 +28,9 @@ final class AuthorEntity: NSManagedObject, Identifiable {
     @objc(remove_books:)
     @NSManaged func removeFromBooks(_ values: Set<BookEntity>)
 
+    // The only available initializer initializes all none-optional properties.
+    // Below we mark all other initializers as unavailable. The compiler can now
+    // enforce that we never instantiate an instance without setting all propperties.
     init(
         context: NSManagedObjectContext,
         id: UUID,
@@ -41,6 +41,7 @@ final class AuthorEntity: NSManagedObject, Identifiable {
         self.name = name
     }
 
+    // MARK: - Unavailable initializers
     @available(*, unavailable)
     override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
         super.init(entity: entity, insertInto: context)
