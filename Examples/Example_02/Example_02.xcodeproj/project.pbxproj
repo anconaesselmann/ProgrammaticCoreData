@@ -23,6 +23,7 @@
 		97AB88CC2BE9899200AB314B /* CreateAuthorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AB88CB2BE9899200AB314B /* CreateAuthorView.swift */; };
 		97AB88CE2BE989B500AB314B /* AuthorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AB88CD2BE989B400AB314B /* AuthorsView.swift */; };
 		97AB88D02BE98EED00AB314B /* BooksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AB88CF2BE98EED00AB314B /* BooksView.swift */; };
+		97B60BD92BE9E569007DB2D8 /* CreateBookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B60BD82BE9E569007DB2D8 /* CreateBookView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		97AB88CB2BE9899200AB314B /* CreateAuthorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAuthorView.swift; sourceTree = "<group>"; };
 		97AB88CD2BE989B400AB314B /* AuthorsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorsView.swift; sourceTree = "<group>"; };
 		97AB88CF2BE98EED00AB314B /* BooksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksView.swift; sourceTree = "<group>"; };
+		97B60BD82BE9E569007DB2D8 /* CreateBookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateBookView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 			children = (
 				97AB889D2BE97CC600AB314B /* ContentView.swift */,
 				97AB88CB2BE9899200AB314B /* CreateAuthorView.swift */,
+				97B60BD82BE9E569007DB2D8 /* CreateBookView.swift */,
 				97AB88CD2BE989B400AB314B /* AuthorsView.swift */,
 				97AB88CF2BE98EED00AB314B /* BooksView.swift */,
 			);
@@ -233,6 +236,7 @@
 				97AB88CA2BE987F000AB314B /* BooksManager.swift in Sources */,
 				97AB88AC2BE97D5800AB314B /* AppState.swift in Sources */,
 				97AB88C42BE983D100AB314B /* BookEntity.swift in Sources */,
+				97B60BD92BE9E569007DB2D8 /* CreateBookView.swift in Sources */,
 				97AB88C62BE984A100AB314B /* ContainerBuilder.swift in Sources */,
 				97AB889E2BE97CC600AB314B /* ContentView.swift in Sources */,
 				97AB88CC2BE9899200AB314B /* CreateAuthorView.swift in Sources */,
