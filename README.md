@@ -46,7 +46,6 @@ We create our `Note` entity programmatically:
 ```swift
 @objc(Note)
 final class Note: NSManagedObject, Identifiable {
-
     @NSManaged var id: UUID
     @NSManaged var text: String
     @NSManaged var created: Date
@@ -72,15 +71,18 @@ let container = try await NSManagedObjectModel(Note.self)
 
 - [Example_02](https://github.com/anconaesselmann/ProgrammaticCoreData/tree/main/Examples/Example_02) is a Book Archive app with a to-many relationship from an `Author` to their `Book`s and an inverse to-one relationship from a `Book` and it's `Author`:
 
-We create an `Author` entity programmatically. Note the `addToBooks` and `removeFromBooks` function signatures. We are exposing objective-c methods that get generated for us to add to our `_books` ordered set:
+We create an `Author` entity programmatically:
 ```swift
 @objc(Author)
 final class Author: NSManagedObject, Identifiable {
-
     @NSManaged var id: UUID
     @NSManaged var name: String
     @NSManaged var _books: NSOrderedSet
 
+    // CoreData requires an `NSSet` or `NSOrderedSet` for relationships. In this example we
+    // use `_` to "hide" the inner none-type-safe objective-c workings and we only 
+    // expose a read-only Swift array of `Book`s. We add to `_books` with the auto-generated
+    // methods below.
     var books: Array<Book> {
         get { _books.array as! Array<Book> }
     }
@@ -90,16 +92,10 @@ final class Author: NSManagedObject, Identifiable {
 
     @objc(remove_booksObject:)
     @NSManaged func removeFromBooks(_ value: Book)
-
-    @objc(add_books:)
-    @NSManaged func addToBooks(_ values: Set<Book>)
-
-    @objc(remove_books:)
-    @NSManaged func removeFromBooks(_ values: Set<Book>)
 }
 ```
 
-We create a `Book` entity programmatically. Note that it should be impossible to create a book without adding the book to it's authors `books` property, since we have an inverse relationship. We achieve this by creating an initializer that adds the book to it's `Author` and marking all other initializers as `unavailable`:
+We create a `Book` entity programmatically. Note that it should be impossible to create a book without adding the book to it's authors `books` property, since we have an inverse relationship:
 ```swift
 @objc(Book)
 final class Book: NSManagedObject, Identifiable {
@@ -108,6 +104,9 @@ final class Book: NSManagedObject, Identifiable {
     @NSManaged var title: String
     @NSManaged var author: Author
     
+    // The only available initializer initializes all none-optional properties.
+    // Below we mark all other initializers as unavailable. The compiler can now
+    // enforce that we never instantiate an instance without setting all propperties.
     init(
         context: NSManagedObjectContext,
         id: UUID,
@@ -121,6 +120,7 @@ final class Book: NSManagedObject, Identifiable {
         author.addToBooks(self)
     }
     
+    // MARK: - Unavailable initializers
     @available(*, unavailable)
     override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
         super.init(entity: entity, insertInto: context)
