@@ -40,7 +40,9 @@ or add the following dependency to your `Package.swift`:
 
 The example projects are a good starting point
 
-- [Example_01](https://github.com/anconaesselmann/ProgrammaticCoreData/tree/main/Examples/Example_01) is a simple notes application without any relationships between entities:
+### Example_01
+
+[Example_01](https://github.com/anconaesselmann/ProgrammaticCoreData/tree/main/Examples/Example_01) is a simple notes application without any relationships between entities:
 
 We create our `Note` entity programmatically:
 ```swift
@@ -71,7 +73,9 @@ let container = try await NSManagedObjectModel(Note.self)
 
 See [NotesManager](https://github.com/anconaesselmann/ProgrammaticCoreData/blob/main/Examples/Example_01/Example_01/Managers/NotesManager.swift) for basic CRUD operations
 
-- [Example_02](https://github.com/anconaesselmann/ProgrammaticCoreData/tree/main/Examples/Example_02) is a Book Archive app with a to-many relationship from an `Author` to their `Book`s and an inverse to-one relationship from a `Book` and it's `Author`:
+### Example_02
+
+[Example_02](https://github.com/anconaesselmann/ProgrammaticCoreData/tree/main/Examples/Example_02) is a Book Archive app with a to-many relationship from an `Author` to their `Book`s and an inverse to-one relationship from a `Book` and it's `Author`:
 
 We create an `Author` entity programmatically:
 ```swift
@@ -187,6 +191,8 @@ let container = try await NSManagedObjectModel(
     Book.self
 ).createContainer(name: "Books", location: .local)
 ```
+
+See [AuthorsManager](https://github.com/anconaesselmann/ProgrammaticCoreData/blob/main/Examples/Example_02/Example_02/Managers/AuthorsManager.swift) or [BooksManager](https://github.com/anconaesselmann/ProgrammaticCoreData/blob/main/Examples/Example_02/Example_02/Managers/BooksManager.swift) for simple CRUD operations.
 
 If we didn't care about the order of books on our `Author` entity we would declare a `books` `Set` instead of an `Array`:
 
