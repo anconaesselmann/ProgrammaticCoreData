@@ -20,6 +20,7 @@ public extension NSPersistentContainer {
 
         case cloud(cloudContainerIdentifier: String, options: CloudOptions)
         case local(subdirecotry: String?)
+        case inMemory
 
         public static var local: Self {
             .local(subdirecotry: nil)
@@ -29,7 +30,7 @@ public extension NSPersistentContainer {
             switch self {
             case .cloud:
                 return true
-            case .local:
+            case .local, .inMemory:
                 return false
             }
         }
@@ -82,6 +83,8 @@ public extension NSPersistentContainer {
             )
         case .local(let subdirectory):
             container = try model.createLocalContainer(name: name, subdirectory: subdirectory)
+        case .inMemory:
+            container = try model.createInMemoryContainer(name: name)
         }
         try await container.loadPersistentStores()
         return container

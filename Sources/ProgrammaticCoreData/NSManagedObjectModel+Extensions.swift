@@ -53,4 +53,12 @@ public extension NSManagedObjectModel {
     func createLocalContainer(name: String, subdirectory: String?) throws -> NSPersistentContainer {
         try NSPersistentContainer(name: name, managedObjectModel: self, subdirecotry: subdirectory)
     }
+
+    func createInMemoryContainer(name: String) throws -> NSPersistentContainer {
+        let container = NSPersistentContainer(name: name, managedObjectModel: self)
+        let description = NSPersistentStoreDescription()
+        description.type = NSInMemoryStoreType
+        container.persistentStoreDescriptions = [description]
+        return container
+    }
 }
